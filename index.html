@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="haibao"/>
+    <title>js 操作缓存 demo</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        .oh{
+            overflow:hidden;
+        }
+        .fl{
+            float:left;
+        }
+        .tc{
+            text-align:center;
+        }
+        .col-6{
+            width:50%;
+        }
+
+        .content{
+            width:980px;
+            margin:30px auto;
+            overflow:hidden;
+        }
+        .title{
+            margin-bottom:20px;
+        }
+        input[type=text]{
+            padding:5px 0;
+            border:1px solid #ccc;
+            text-indent: 8px;
+        }
+        input[type=button]{
+            padding:5px 10px;
+            border:0 none;
+            color:#fff;
+            cursor:pointer;
+        }
+        input[type=button].save{
+        		background-color:#00a99d;
+        }
+        input[type=button].del{
+        		background-color:#e96900;
+        }
+        .valCon{
+            width:300px;
+            padding:0 15px;
+            height:80px;
+            line-height:80px;
+            background-color:#f2f2f2;
+            border:1px solid #ccc;
+            color:#333;
+            margin-top:20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="content oh">
+        <div class="col-6 fl">
+            <h3 class="title">cookie操作</h3>
+            <div class="demo">
+                <input type="text" value="" id="ipt1" placeholder="输入个值保存看效果"/>
+                <input type="button" id="saveCookie" class="save" value="保存"/>
+                	<input type="button" id="delCookie" class="del" value="删除" />
+            </div>
+            <p class="valCon" id="cookieVal"></p>
+        </div>
+        <div class="col-6 fl">
+            <h3 class="title">storage操作[local或者session, Tips:  IE6/7不支持]</h3>
+            <div class="demo">
+                <input type="text" value="" id="ipt2" placeholder="输入个值保存看效果"/>
+                <input type="button" id="saveLocalStorage" class="save" value="保存为local"/>
+                <input type="button" id="saveSessionStorage" class="save" value="保存为session"/>
+                <input type="button" id="delLocalStorage" class="del" onclick="delStorage('local');" value="删除local" />
+                <input type="button" id="delSessionStorage" class="del" onclick="delStorage('session');" value="删除session" />
+            </div>
+            <p class="valCon" id="storageVal"></p>
+        </div>
+    </div>
+
+    <!--js-->
+    <script src="js/cache.js"></script>
+    <script>
+        //以下仅为演示代码，请忽略命名规范.. 不要在意这些细节~
+        var byId = function(id) {
+            return document.getElementById(id);
+        };
+        var ipt1 = byId('ipt1'),
+            ipt2 = byId('ipt2'),
+            saveBtn1 = byId('saveCookie'),
+            saveBtn2 = byId('saveLocalStorage'),
+            saveBtn3 = byId('saveSessionStorage'),
+            val1 = byId('cookieVal'),
+            val2 = byId('storageVal'),
+            delBtn1 = byId('delCookie'),
+            delBtn2 = byId('delLocalStorage');
+          
+        //保存cookie
+        saveBtn1.onclick = function(){
+            var v1 = ipt1.value;
+            if(v1 != ''){
+                cacheJS.setCookie('ipt1',v1,2); //设置2天缓存
+
+                val1.innerText = '此处获取设置的缓存值：'+cacheJS.getCookie('ipt1'); //获取缓存 并及时更新文本展示
+                alert('保存成功！');
+            }else{
+                alert('请输入值...');
+            }
+        };
+        
+        //删除cookie
+        delBtn1.onclick = function(){
+        		cacheJS.delCookie('ipt1');
+        		val1.innerText = '';
+        		alert('删除成功');
+        };
+        
+        //保存localStorage
+        saveBtn2.onclick = function(){
+            var v2 = ipt2.value;
+            if(v2 != ''){
+                cacheJS.setStorage('ipt2', v2); //保存缓存
+
+                val2.innerText = '此处获取设置的缓存值：'+cacheJS.getStorage('ipt2'); //获取缓存 并及时更新文本展示
+                alert('保存成功！');
+            }else{
+                alert('请输入值...');
+            }
+        };
+        
+        //保存sessionStorage
+        saveBtn3.onclick = function(){
+            var v2 = ipt2.value;
+            if(v2 != ''){
+                cacheJS.setStorage('ipt2', v2, sessionStorage); //保存缓存
+
+                val2.innerText = '此处获取设置的缓存值：'+cacheJS.getStorage('ipt2',sessionStorage); //获取缓存 并及时更新文本展示
+                alert('保存成功！');
+            }else{
+                alert('请输入值...');
+            }
+        };
+        
+        //删除storage
+        function delStorage(type){
+        		if(type === 'session'){
+        			cacheJS.delStorage('ipt2', sessionStorage);
+        		}else{
+        			cacheJS.delStorage('ipt2');
+        		}
+        		val2.innerText = '';
+        		alert('删除成功');
+        }
+    </script>
+</body>
+</html>
