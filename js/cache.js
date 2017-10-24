@@ -1,32 +1,32 @@
 /*
-*  JS操作缓存 [cookie && localStorage && sessionStorage]
-*  by haibao [http://www.hehaibao.com/]
-*
-*     设置cookie的方法：cacheJS.setCookie(key,val,day);
-*     获取cookie的方法：cacheJS.getCookie(key);
-*     删除cookie的方法：cacheJS.delCookie(key);
-*
-*     or
-*
-*     设置storage的方法：cacheJS.setStorage(key, val);                 //第三个参数不传则默认是：localStorage
-*                      cacheJS.setStorage(key, val, sessionStorage); //sessionStorage
-*     获取storage的方法: cacheJS.getStorage(key);
-*                      cacheJS.getStorage(key, sessionStorage);
-*     删除storage的方法：cacheJS.delStorage(key);
-*                      cacheJS.delStorage(key, sessionStorage);
-*     设置storage的其他方法： cacheJS.setStorageObject(key, val);     // val传对象
-*
-*        举个栗子：
-*          var postJson = {
-*             id: 1,
-*             name: 'haibao'
-*          };
-*          cacheJS.setStorageObject("postJson",postJson);
-*
-*     获取storage的其他方法：cacheJS.getStorageObject(key);
-**/
+ *  JS操作缓存 [cookie && localStorage && sessionStorage]
+ *  by haibao [http://www.hehaibao.com/]
+ *
+ *     设置cookie的方法：cacheJS.setCookie(key,val,day);
+ *     获取cookie的方法：cacheJS.getCookie(key);
+ *     删除cookie的方法：cacheJS.delCookie(key);
+ *
+ *     or
+ *
+ *     设置storage的方法：cacheJS.setStorage(key, val);                 //第三个参数不传则默认是：localStorage
+ *                      cacheJS.setStorage(key, val, sessionStorage); //sessionStorage
+ *     获取storage的方法: cacheJS.getStorage(key);
+ *                      cacheJS.getStorage(key, sessionStorage);
+ *     删除storage的方法：cacheJS.delStorage(key);
+ *                      cacheJS.delStorage(key, sessionStorage);
+ *     设置storage的其他方法： cacheJS.setStorageObject(key, val);     // val传对象
+ *
+ *        举个栗子：
+ *          var postJson = {
+ *             id: 1,
+ *             name: 'haibao'
+ *          };
+ *          cacheJS.setStorageObject("postJson",postJson);
+ *
+ *     获取storage的其他方法：cacheJS.getStorageObject(key);
+ **/
 var cacheJS = {
-    hours: 24*3600*1000, //24小时
+    hours: 24 * 3600 * 1000, //24小时
     errorTxt: '您的Web浏览器不支持本地存储设置。在Safari中，最常见的原因是使用“无痕浏览模式”。有些设置可能无法保存，某些功能可能无法正常工作。',
     /**
      * 设置cookie方法
@@ -34,23 +34,23 @@ var cacheJS = {
      *  @param val 值
      *  @param day 存储的时间 以天为单位
      * **/
-    setCookie: function(key, val, day){
+    setCookie: function (key, val, day) {
         var date = new Date(); // 获取当前时间
-        day = typeof day === 'undefined' ? this.hours : day*this.hours; //有则存，没有则默认1天
+        day = typeof day === 'undefined' ? this.hours : day * this.hours; //有则存，没有则默认1天
         date.setTime(date.getTime() + day); // 格式化为cookie识别的时间
-        document.cookie = key + "=" + escape(val) +";expires=" + date.toGMTString() + ";path=/"; // 设置cookie
+        document.cookie = key + "=" + escape(val) + ";expires=" + date.toGMTString() + ";path=/"; // 设置cookie
     },
     /**
      * 获取cookie方法
      *  @param key 名称
      * **/
-    getCookie: function(key){
-        var getCookie = document.cookie.replace(/[ ]/g,""); // 获取cookie，并且将获得的cookie格式化，去掉空格字符
+    getCookie: function (key) {
+        var getCookie = document.cookie.replace(/[ ]/g, ""); // 获取cookie，并且将获得的cookie格式化，去掉空格字符
         var arrCookie = getCookie.split(";");
         var tempData;
-        for(var i=0;i<arrCookie.length;i++){
+        for (var i = 0; i < arrCookie.length; i++) {
             var arr = arrCookie[i].split("="); // 将单条cookie用"等号"为标识，将单条cookie保存为arr数组
-            if(key == arr[0]){  // 匹配变量名称，其中arr[0]是指的cookie名称
+            if (key == arr[0]) { // 匹配变量名称，其中arr[0]是指的cookie名称
                 tempData = unescape(arr[1]);
                 break;
             }
@@ -61,11 +61,11 @@ var cacheJS = {
      * 删除cookie方法
      *  @param key 名称
      * **/
-    delCookie: function(key){
+    delCookie: function (key) {
         var date = new Date();
         date.setTime(date.getTime() - this.hours); // 设置为前一天的时间
-        if(this.getCookie(key) != null){
-            document.cookie = key + "="+ this.getCookie(key) +";expires="+date.toGMTString() + ";path=/";
+        if (this.getCookie(key) != null) {
+            document.cookie = key + "=" + this.getCookie(key) + ";expires=" + date.toGMTString() + ";path=/";
         }
     },
     /**
@@ -74,14 +74,14 @@ var cacheJS = {
      * @param val 值
      * @param type [object] 类型[可选值sessionStorage/localStorage]，不填则默认localStorage
      * **/
-    setStorage: function(key, val, type){
+    setStorage: function (key, val, type) {
         // 判断是否safari无痕浏览模式
         type = type ? type : window.localStorage; //如果不填，默认是localStorage
         if (typeof type === 'object') {
             try {
                 type[key] = escape(val);
             } catch (e) {
-                alert(cacheJS.errorTxt);
+                alert(this.errorTxt);
             }
         }
     },
@@ -90,14 +90,14 @@ var cacheJS = {
      * @param key 名称
      * @param type [object] 类型[可选值sessionStorage/localStorage]，不填则默认localStorage
      * **/
-    getStorage: function(key, type){
+    getStorage: function (key, type) {
         // 判断是否safari无痕浏览模式
         type = type ? type : window.localStorage;
         if (typeof type === 'object') {
             try {
                 return unescape(type[key]);
             } catch (e) {
-                alert(cacheJS.errorTxt);
+                alert(this.errorTxt);
             }
         }
     },
@@ -107,13 +107,13 @@ var cacheJS = {
      * @param val 值
      * @param type [object] 类型[可选值sessionStorage/localStorage]，不填则默认localStorage
      * **/
-    setStorageObject: function(key, val, type){
-    		type = type ? type : window.localStorage;
-    		if (typeof type === 'object') {
+    setStorageObject: function (key, val, type) {
+        type = type ? type : window.localStorage;
+        if (typeof type === 'object') {
             try {
                 type[key] = JSON.stringify(val);
             } catch (e) {
-                alert(cacheJS.errorTxt);
+                alert(this.errorTxt);
             }
         }
     },
@@ -123,12 +123,12 @@ var cacheJS = {
      * @param type [object] 类型[可选值sessionStorage/localStorage]，不填则默认localStorage
      * **/
     getStorageObject: function (key, type) {
-    		type = type ? type : window.localStorage;
+        type = type ? type : window.localStorage;
         if (typeof type === 'object') {
             try {
                 return JSON.parse(type[key] || '{}');
             } catch (e) {
-                alert(cacheJS.errorTxt);
+                alert(this.errorTxt);
             }
         }
     },
@@ -137,14 +137,14 @@ var cacheJS = {
      * @param key 名称
      * @param type [object] 类型[可选值sessionStorage/localStorage]，不填则默认localStorage
      * **/
-    delStorage: function(key, type){
-    		type = type ? type : window.localStorage;
-    		if (typeof type === 'object') {
+    delStorage: function (key, type) {
+        type = type ? type : window.localStorage;
+        if (typeof type === 'object') {
             try {
-               	type[key] = '';
-        			delete type[key];
+                type[key] = '';
+                delete type[key];
             } catch (e) {
-                alert(cacheJS.errorTxt);
+                alert(this.errorTxt);
             }
         }
     }
