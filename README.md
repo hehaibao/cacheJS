@@ -3,11 +3,17 @@ JS缓存操作的简单封装，支持 cookie/localStorage/sessionStorage，不�
 
 #### 使用方法：
 
-  设置cookie的方法：cacheJS.setCookie(key,val,day);
+  设置cookie的方法：
   
-  获取cookie的方法：cacheJS.getCookie(key);
+      cacheJS.setCookie(key,val,day);
   
-  删除cookie的方法：cacheJS.delCookie(key);
+  获取cookie的方法：
+  
+      cacheJS.getCookie(key);
+  
+  删除cookie的方法：
+    
+      cacheJS.delCookie(key);
 
   or
   
@@ -35,11 +41,15 @@ JS缓存操作的简单封装，支持 cookie/localStorage/sessionStorage，不�
 
   举个栗子：
   
+  ```javascript
   var postJson = {
       id: 1,
       name: 'haibao'
   };
   
   cacheJS.setStorageObject("postJson",postJson);
+  ```
 
-  获取storage的其他方法：cacheJS.getStorageObject(key);
+  获取storage的其他方法：
+  
+      cacheJS.getStorageObject(key);
