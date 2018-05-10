@@ -52,15 +52,9 @@ var cacheJS = {
      * @param type [object] 类型[可选值sessionStorage/localStorage]，不填则默认localStorage
      * **/
     setStorage: function (key, val, type) {
-        // 判断是否safari无痕浏览模式
-        type = type ? type : window.localStorage; //如果不填，默认是localStorage
-        if (typeof type === 'object') {
-            try {
-                type[key] = escape(val);
-            } catch (e) {
-                alert(this.errorTxt);
-                return;
-            }
+        type = type ? type : window.localStorage;
+        if(this.checkSupport(type)) {
+            type[key] = escape(val);
         }
     },
     /**
@@ -69,15 +63,9 @@ var cacheJS = {
      * @param type [object] 类型[可选值sessionStorage/localStorage]，不填则默认localStorage
      * **/
     getStorage: function (key, type) {
-        // 判断是否safari无痕浏览模式
         type = type ? type : window.localStorage;
-        if (typeof type === 'object') {
-            try {
-                return unescape(type[key]);
-            } catch (e) {
-                alert(this.errorTxt);
-                return;
-            }
+        if(this.checkSupport(type)) {
+            return unescape(type[key]);
         }
     },
     /**
@@ -88,13 +76,8 @@ var cacheJS = {
      * **/
     setStorageObject: function (key, val, type) {
         type = type ? type : window.localStorage;
-        if (typeof type === 'object') {
-            try {
-                type[key] = JSON.stringify(val);
-            } catch (e) {
-                alert(this.errorTxt);
-                return;
-            }
+        if(this.checkSupport(type)) {
+            type[key] = JSON.stringify(val);
         }
     },
     /**
@@ -104,13 +87,8 @@ var cacheJS = {
      * **/
     getStorageObject: function (key, type) {
         type = type ? type : window.localStorage;
-        if (typeof type === 'object') {
-            try {
-                return JSON.parse(type[key] || '{}');
-            } catch (e) {
-                alert(this.errorTxt);
-                return;
-            }
+        if(this.checkSupport(type)) {
+            return JSON.parse(type[key] || '{}');
         }
     },
     /**
@@ -120,14 +98,26 @@ var cacheJS = {
      * **/
     delStorage: function (key, type) {
         type = type ? type : window.localStorage;
+        if(this.checkSupport(type)) {
+            type[key] = '';
+            delete type[key];
+        }
+    },
+    /**
+     * 检测是否支持localStorage或sessionStorage
+     * @param type [object] 类型[可选值sessionStorage/localStorage]，不填则默认localStorage
+     */
+    checkSupport: function (type) {
+        var isSupport = false;
+        type = type ? type : window.localStorage; //如果不填，默认是localStorage
         if (typeof type === 'object') {
             try {
-                type[key] = '';
-                delete type[key];
+                isSupport = true;
             } catch (e) {
+                isSupport = false;
                 alert(this.errorTxt);
-                return;
             }
         }
+        return isSupport;
     }
 };
