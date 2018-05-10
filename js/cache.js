@@ -53,8 +53,10 @@ var cacheJS = {
      * **/
     setStorage: function (key, val, type) {
         type = type ? type : window.localStorage;
-        if(this.checkSupport(type)) {
-            type[key] = escape(val);
+        if(this.checkSupport()) {
+            type[key] = escape(val); 
+        } else {
+            alert(this.errorTxt);
         }
     },
     /**
@@ -64,8 +66,10 @@ var cacheJS = {
      * **/
     getStorage: function (key, type) {
         type = type ? type : window.localStorage;
-        if(this.checkSupport(type)) {
+        if(this.checkSupport()) {
             return unescape(type[key]);
+        } else {
+            alert(this.errorTxt);
         }
     },
     /**
@@ -76,8 +80,10 @@ var cacheJS = {
      * **/
     setStorageObject: function (key, val, type) {
         type = type ? type : window.localStorage;
-        if(this.checkSupport(type)) {
+        if(this.checkSupport()) {
             type[key] = JSON.stringify(val);
+        } else {
+            alert(this.errorTxt);
         }
     },
     /**
@@ -87,8 +93,10 @@ var cacheJS = {
      * **/
     getStorageObject: function (key, type) {
         type = type ? type : window.localStorage;
-        if(this.checkSupport(type)) {
+        if(this.checkSupport()) {
             return JSON.parse(type[key] || '{}');
+        } else {
+            alert(this.errorTxt);
         }
     },
     /**
@@ -98,26 +106,25 @@ var cacheJS = {
      * **/
     delStorage: function (key, type) {
         type = type ? type : window.localStorage;
-        if(this.checkSupport(type)) {
+        if(this.checkSupport()) {
             type[key] = '';
             delete type[key];
+        } else {
+            alert(this.errorTxt);
         }
     },
     /**
      * 检测是否支持localStorage或sessionStorage
-     * @param type [object] 类型[可选值sessionStorage/localStorage]，不填则默认localStorage
      */
-    checkSupport: function (type) {
-        var isSupport = false;
-        type = type ? type : window.localStorage; //如果不填，默认是localStorage
-        if (typeof type === 'object') {
-            try {
-                isSupport = true;
-            } catch (e) {
-                isSupport = false;
-                alert(this.errorTxt);
-            }
+    checkSupport: function () {
+        var testKey = 'test', storage = window.sessionStorage;
+        try {
+            storage.setItem(testKey, '1');
+            storage.removeItem(testKey);
+            return localStorageName in win && win[localStorageName];
+        } 
+        catch (error) {
+            return false;
         }
-        return isSupport;
     }
 };

@@ -166,9 +166,12 @@
             var v2 = ipt2.value;
             if(v2 != ''){
                 cacheJS.setStorage('ipt2', v2); //保存缓存
-
-                val2.innerText = '此处获取设置的缓存值：'+cacheJS.getStorage('ipt2'); //获取缓存 并及时更新文本展示
-                alert('保存成功！');
+                
+                if(cacheJS.checkSupport()) {
+                    val2.innerText = '此处获取设置的缓存值：'+cacheJS.getStorage('ipt2'); //获取缓存 并及时更新文本展示
+                    alert('保存成功！');
+                }
+                
             }else{
                 alert('请输入值...');
             }
@@ -180,8 +183,10 @@
             if(v2 != ''){
                 cacheJS.setStorage('ipt2', v2, sessionStorage); //保存缓存
 
-                val2.innerText = '此处获取设置的缓存值：'+cacheJS.getStorage('ipt2',sessionStorage); //获取缓存 并及时更新文本展示
-                alert('保存成功！');
+                if(cacheJS.checkSupport()) {
+                    val2.innerText = '此处获取设置的缓存值：'+cacheJS.getStorage('ipt2',sessionStorage); //获取缓存 并及时更新文本展示
+                    alert('保存成功！');
+                }
             }else{
                 alert('请输入值...');
             }
@@ -194,8 +199,11 @@
             }else{
                 cacheJS.delStorage('ipt2');
             }
-            val2.innerText = '';
-            alert('删除成功');
+
+            if(cacheJS.checkSupport()) {
+                val2.innerText = '';
+                alert('删除成功');
+            }
         }
     </script>
 </body>
