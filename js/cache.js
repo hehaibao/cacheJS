@@ -121,7 +121,7 @@ var cacheJS = {
         try {
             storage.setItem(testKey, '1');
             storage.removeItem(testKey);
-            return localStorageName in win && win[localStorageName];
+            return true;
         } 
         catch (error) {
             return false;
