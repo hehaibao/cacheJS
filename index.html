@@ -98,34 +98,35 @@
     <div class="use">
         <h2>使用方法：</h2>
         <pre>
-            *     设置cookie的方法：cacheJS.setCookie(key,val,day);
-            *     获取cookie的方法：cacheJS.getCookie(key);
-            *     删除cookie的方法：cacheJS.delCookie(key);
-            *
-            *     or
-            *
-            *     设置storage的方法：cacheJS.setStorage(key, val);                 //第三个参数不传则默认是：localStorage
-            *                      cacheJS.setStorage(key, val, sessionStorage); //sessionStorage
-            *     获取storage的方法: cacheJS.getStorage(key);
-            *                      cacheJS.getStorage(key, sessionStorage);
-            *     删除storage的方法：cacheJS.delStorage(key);
-            *                      cacheJS.delStorage(key, sessionStorage);
-            *     设置storage的其他方法： cacheJS.setStorageObject(key, val);     // val传对象
-            *
-            *        举个栗子：
-            *          var postJson = {
-            *             id: 1,
-            *             name: 'haibao'
-            *          };
-            *          cacheJS.setStorageObject("postJson",postJson);
-            *
-            *     获取storage的其他方法：cacheJS.getStorageObject(key);
+        *     设置cookie的方法：cacheJS.setCookie(key,val,day);
+        *     获取cookie的方法：cacheJS.getCookie(key);
+        *     删除cookie的方法：cacheJS.delCookie(key);
+        *
+        *     or
+        *
+        *     设置storage的方法：cacheJS.setStorage(key, val);                 //第三个参数不传则默认是：localStorage
+        *                      cacheJS.setStorage(key, val, sessionStorage); //sessionStorage
+        *     获取storage的方法: cacheJS.getStorage(key);
+        *                      cacheJS.getStorage(key, sessionStorage);
+        *     删除storage的方法：cacheJS.delStorage(key);
+        *                      cacheJS.delStorage(key, sessionStorage);
+        *     设置storage的其他方法： cacheJS.setStorageObject(key, val);     // val传对象
+        *
+        *        举个栗子：
+        *          var postJson = {
+        *             id: 1,
+        *             name: 'haibao'
+        *          };
+        *          cacheJS.setStorageObject("postJson",postJson);
+        *
+        *     获取storage的其他方法：cacheJS.getStorageObject(key);
         </pre>
     </div>
 
     <!--js-->
     <script src="js/cache.js"></script>
     <script>
+
         //以下仅为演示代码，请忽略命名规范.. 不要在意这些细节~
         var byId = function(id) {
             return document.getElementById(id);
@@ -155,9 +156,9 @@
         
         //删除cookie
         delBtn1.onclick = function(){
-        		cacheJS.delCookie('ipt1');
-        		val1.innerText = '';
-        		alert('删除成功');
+            cacheJS.delCookie('ipt1');
+            val1.innerText = '';
+            alert('删除成功');
         };
         
         //保存localStorage
@@ -188,13 +189,13 @@
         
         //删除storage
         function delStorage(type){
-        		if(type === 'session'){
-        			cacheJS.delStorage('ipt2', sessionStorage);
-        		}else{
-        			cacheJS.delStorage('ipt2');
-        		}
-        		val2.innerText = '';
-        		alert('删除成功');
+            if(type === 'session'){
+                cacheJS.delStorage('ipt2', sessionStorage);
+            }else{
+                cacheJS.delStorage('ipt2');
+            }
+            val2.innerText = '';
+            alert('删除成功');
         }
     </script>
 </body>
